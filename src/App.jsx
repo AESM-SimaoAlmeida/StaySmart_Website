@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import SignupModal from './SignupModal';
+import HowItWorksModal from './HowItWorksModal';
 import {
   MessageSquare,
   Home,
@@ -321,7 +322,7 @@ const Navbar = ({ t, lang, setLang }) => (
   </nav>
 );
 
-const Hero = ({ t, onSignupOpen }) => (
+const Hero = ({ t, onSignupOpen, onHowItWorksOpen }) => (
   <section className="relative min-h-[80vh] flex items-center justify-center px-6 overflow-hidden">
     <div className="absolute inset-0 z-0">
       <img
@@ -348,7 +349,10 @@ const Hero = ({ t, onSignupOpen }) => (
         >
           {t.hero.btn1}
         </button>
-        <button className="w-full md:w-auto border border-brand-dark/20 px-10 py-4 rounded-full text-base font-bold hover:bg-brand-dark/5 transition-all flex items-center justify-center">
+        <button
+          onClick={onHowItWorksOpen}
+          className="w-full md:w-auto border border-brand-dark/20 px-10 py-4 rounded-full text-base font-bold hover:bg-brand-dark/5 transition-all flex items-center justify-center"
+        >
           {t.hero.btn2} <ArrowRight className="ml-2 h-5 w-5" />
         </button>
       </div>
@@ -639,13 +643,15 @@ const Footer = ({ t }) => (
 function App() {
   const [lang, setLang] = useState('pt');
   const [signupOpen, setSignupOpen] = useState(false);
+  const [howItWorksOpen, setHowItWorksOpen] = useState(false);
   const t = translations[lang];
 
   return (
     <div className="bg-brand-light min-h-screen">
       <SignupModal open={signupOpen} onClose={() => setSignupOpen(false)} lang={lang} />
+      <HowItWorksModal open={howItWorksOpen} onClose={() => setHowItWorksOpen(false)} lang={lang} onSignupOpen={() => { setHowItWorksOpen(false); setSignupOpen(true); }} />
       <Navbar t={t} lang={lang} setLang={setLang} />
-      <Hero t={t} onSignupOpen={() => setSignupOpen(true)} />
+      <Hero t={t} onSignupOpen={() => setSignupOpen(true)} onHowItWorksOpen={() => setHowItWorksOpen(true)} />
       <Features t={t} />
       <HowItWorks t={t} />
       <Experience t={t} />
