@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import SignupModal from './SignupModal';
 import {
   MessageSquare,
   Home,
@@ -320,7 +321,7 @@ const Navbar = ({ t, lang, setLang }) => (
   </nav>
 );
 
-const Hero = ({ t }) => (
+const Hero = ({ t, onSignupOpen }) => (
   <section className="relative min-h-[80vh] flex items-center justify-center px-6 overflow-hidden">
     <div className="absolute inset-0 z-0">
       <img
@@ -341,7 +342,10 @@ const Hero = ({ t }) => (
         {t.hero.p}
       </p>
       <div className="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
-        <button className="w-full md:w-auto bg-brand-primary text-white px-10 py-4 rounded-full text-base font-bold shadow-lg shadow-brand-primary/20 hover:scale-105 transition-all">
+        <button
+          onClick={onSignupOpen}
+          className="w-full md:w-auto bg-brand-primary text-white px-10 py-4 rounded-full text-base font-bold shadow-lg shadow-brand-primary/20 hover:scale-105 transition-all"
+        >
           {t.hero.btn1}
         </button>
         <button className="w-full md:w-auto border border-brand-dark/20 px-10 py-4 rounded-full text-base font-bold hover:bg-brand-dark/5 transition-all flex items-center justify-center">
@@ -634,12 +638,14 @@ const Footer = ({ t }) => (
 
 function App() {
   const [lang, setLang] = useState('pt');
+  const [signupOpen, setSignupOpen] = useState(false);
   const t = translations[lang];
 
   return (
     <div className="bg-brand-light min-h-screen">
+      <SignupModal open={signupOpen} onClose={() => setSignupOpen(false)} lang={lang} />
       <Navbar t={t} lang={lang} setLang={setLang} />
-      <Hero t={t} />
+      <Hero t={t} onSignupOpen={() => setSignupOpen(true)} />
       <Features t={t} />
       <HowItWorks t={t} />
       <Experience t={t} />
